@@ -1,0 +1,3 @@
+defscrollback 10000
+caption always "%= %-w%L>%{= BW}%n*%t%{-}%52<%+w %L="
+hardstatus alwayslastline "%25=Host: %H (%{= kg}%c:%s%{-}) Load: %l "
