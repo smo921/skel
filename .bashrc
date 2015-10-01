@@ -45,8 +45,18 @@ alias xterm='xterm -bg black -fg green'
 alias augtool='augtool -I $HOME/projects/augeas/lenses/'
 alias ta='tmux attach -t'
 alias tls='tmux list-sessions'
+alias kitchen='bundle exec kitchen'
+awsfwd() {
+  ssh -f -nNT -L $1 $AWS_JUMPHOST
+}
 
 [ -s "$HOME/.scm_breeze/scm_breeze.sh" ] && source "$HOME/.scm_breeze/scm_breeze.sh"
 [ -s "$HOME/ansible/hacking/env-setup" ] && source "$HOME/ansible/hacking/env-setup" -q
 
 
+
+### Added by the Heroku Toolbelt
+export PATH="/usr/local/heroku/bin:$PATH"
+
+# added by travis gem
+[ -f /Users/soberther/.travis/travis.sh ] && source /Users/soberther/.travis/travis.sh

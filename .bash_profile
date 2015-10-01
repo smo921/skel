@@ -48,6 +48,7 @@ for testdir in                 \
     /usr/ccs/bin               \
     $HOME/bin                  \
     $HOME/.rbenv/bin           \
+    $HOME/gopath/bin           \
     /data/rbenv/bin            \
   ; do
     echo -n "PATHADD ... "
@@ -119,7 +120,22 @@ fi
 
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 
+if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi
+# pip should only run if there is a virtualenv currently activated
+export PIP_REQUIRE_VIRTUALENV=true
+# cache pip-installed packages to avoid re-downloading
+export PIP_DOWNLOAD_CACHE=$HOME/.pip/cache
+
+export NVM_DIR=~/.nvm
+if brew --prefix nvm > /dev/null; then source $(brew --prefix nvm)/nvm.sh; fi
+
+if [ -d $HOME/gopath ]; then export GOPATH="$HOME/gopath"; fi
+export KUBERNETES_PROVIDER=vagrant
+
 export PATH="/opt/chefdk/bin:$PATH"
+
+# Work/employer related configs that should never be exposed in github
+if [ -f $HOME/.workrc ]; then source $HOME/.workrc; fi
 
 echo "SSH Keys loaded:"
 ssh-add -ls

@@ -2,3 +2,4 @@
 .bash_history
 build/
 .ssh/config
+.workrc
