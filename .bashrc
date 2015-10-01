@@ -8,6 +8,9 @@ export EDITOR=vi
 if [ -f "$(brew --prefix bash-git-prompt)/share/gitprompt.sh" ]; then
   GIT_PROMPT_THEME=Default
   source "$(brew --prefix bash-git-prompt)/share/gitprompt.sh"
+elif [ -f $HOME/.bash-git-prompt]; then
+  GIT_PROMPT_THEME=Default
+  source $HOME/.bash-git-prompt
 elif [ -f $HOME/.bash_functions ]; then
 	. $HOME/.bash_functions
 	termwide
