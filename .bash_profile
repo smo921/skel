@@ -30,28 +30,25 @@ if [ -e /etc/bash.bashrc ] ; then
   source /etc/bash.bashrc
 fi
 
-# source the users bashrc if it exists
-if [ -e "${HOME}/.bashrc" ] ; then
-  source "${HOME}/.bashrc"
-fi
 
+[ -f /opt/boxen/env.sh ] && source /opt/boxen/env.sh
 
 ########## Build up our path ############
 grepcmd='egrep'
 
 for testdir in                 \
-    /usr/sfw/bin		\
-    /usr/sfw/sbin		\
+    /usr/sfw/bin               \
+    /usr/sfw/sbin              \
     /sbin                      \
     /bin                       \
     /usr/sbin                  \
     /usr/bin                   \
     /usr/local/sbin            \
     /usr/local/bin             \
-    /usr/ccs/bin		\
-    $HOME/bin			\
-    $HOME/.rbenv/bin		\
-    /data/rbenv/bin		\
+    /usr/ccs/bin               \
+    $HOME/bin                  \
+    $HOME/.rbenv/bin           \
+    /data/rbenv/bin            \
   ; do
     echo -n "PATHADD ... "
     if [ -d "${testdir}" ]
@@ -107,11 +104,22 @@ for testdir in .; do
         export LD_LIBRARY_PATH="${testdir}:${LD_LIBRARY_PATH}"
 done
 
+# source the users bashrc if it exists
+if [ -e "${HOME}/.bashrc" ] ; then
+  source "${HOME}/.bashrc"
+fi
+
+
 ## Setup rbenv
 if [ -d /data/rbenv ]; then
   export RBENV_ROOT="/data/rbenv"
+elif [ -d /usr/local/var/rbenv ]; then
+  export RBENV_ROOT=/usr/local/var/rbenv
 fi
-eval "$(rbenv init -)"
+
+if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
+
+export PATH="/opt/chefdk/bin:$PATH"
 
 echo "SSH Keys loaded:"
 ssh-add -ls

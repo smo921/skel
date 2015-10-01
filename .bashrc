@@ -5,14 +5,19 @@ export PAGER=less
 export EDITOR=vi
 #export MANPATH=/opt/local/share/man:$MANPATH
 
-if [ -f $HOME/.bash_functions ]; then
+if [ -f "$(brew --prefix bash-git-prompt)/share/gitprompt.sh" ]; then
+  GIT_PROMPT_THEME=Default
+  source "$(brew --prefix bash-git-prompt)/share/gitprompt.sh"
+elif [ -f $HOME/.bash_functions ]; then
 	. $HOME/.bash_functions
 	termwide
 else
 	export PS1='[(\@) (\j)] \u@\h:$($HOME/.prompt)\$ '
 fi
 
-
+if [ -f "$HOME/.brewrc.local" ]; then
+  . $HOME/.brewrc.local
+fi
 
 
 if [ `uname` == "CYGWIN_NT-5.1" ]; then
