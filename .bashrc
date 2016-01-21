@@ -41,6 +41,7 @@ fi
 
 export TERM
 
+[ -f '/usr/local/bin/hub' ] && alias git=hub
 alias vi=vim
 alias fixterm='resize > /tmp/blah ; . /tmp/blah ; rm /tmp/blah'
 alias less='less -R'
@@ -49,14 +50,10 @@ alias augtool='augtool -I $HOME/projects/augeas/lenses/'
 alias ta='tmux attach -t'
 alias tls='tmux list-sessions'
 alias kitchen='bundle exec kitchen'
-awsfwd() {
-  ssh -f -nNT -L $1 $AWS_JUMPHOST
-}
+alias rake='bundle exec rake'
 
 [ -s "$HOME/.scm_breeze/scm_breeze.sh" ] && source "$HOME/.scm_breeze/scm_breeze.sh"
 [ -s "$HOME/ansible/hacking/env-setup" ] && source "$HOME/ansible/hacking/env-setup" -q
-
-
 
 ### Added by the Heroku Toolbelt
 export PATH="/usr/local/heroku/bin:$PATH"
