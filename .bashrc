@@ -28,13 +28,13 @@ fi
 
 if [ `uname` == "CYGWIN_NT-5.1" ]; then
   alias ls='ls --color'
-  TERM=xterm
+  TERM=xterm-color
 elif [ `uname` == 'Linux' ]; then
   alias ls='ls --color'
-  TERM=xterm
+  TERM=xterm-color
 elif [ `uname` == 'Darwin' ]; then
   alias ls='ls -G'
-  TERM=xterm
+  TERM=xterm-color
 elif [ `uname` == 'FreeBSD' ]; then
   alias ls='ls -G'
   TERM=xterm-color
