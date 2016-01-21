@@ -14,7 +14,10 @@ function start_agent {
 }
 
 # Source SSH settings, if applicable
-if [ -f "${SSH_ENV}" ]; then
+ssh-add -ls > /dev/null 2>&1
+if [ $? -eq 0 ]; then
+     echo "Keys already loaded, skipping ssh agent startup"
+elif [ -f "${SSH_ENV}" ]; then
     . "${SSH_ENV}" > /dev/null
     #ps ${SSH_AGENT_PID} doesn't work under cywgin
     ps auxwww | grep ${SSH_AGENT_PID} | grep ssh-agent$ > /dev/null || {
@@ -127,7 +130,7 @@ export PIP_REQUIRE_VIRTUALENV=true
 export PIP_DOWNLOAD_CACHE=$HOME/.pip/cache
 
 export NVM_DIR=~/.nvm
-if brew --prefix nvm > /dev/null; then source $(brew --prefix nvm)/nvm.sh; fi
+if [[ $HAVE_BREW -eq 0 && -f $(brew --prefix nvm) ]]; then source $(brew --prefix nvm)/nvm.sh; fi
 
 if [ -d $HOME/gopath ]; then export GOPATH="$HOME/gopath"; fi
 export KUBERNETES_PROVIDER=vagrant

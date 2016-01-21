@@ -5,17 +5,20 @@ export PAGER=less
 export EDITOR=vi
 #export MANPATH=/opt/local/share/man:$MANPATH
 
-if [ -f "$(brew --prefix bash-git-prompt)/share/gitprompt.sh" ]; then
+/usr/bin/which brew > /dev/null 2>&1
+HAVE_BREW=$?
+
+if [[ $HAVE_BREW -eq 0 && -f "$(brew --prefix bash-git-prompt)/share/gitprompt.sh" ]]; then
   GIT_PROMPT_THEME=Default
   source "$(brew --prefix bash-git-prompt)/share/gitprompt.sh"
-elif [ -f $HOME/.bash-git-prompt]; then
+elif [ -f $HOME/.bash-git-prompt ]; then
   GIT_PROMPT_THEME=Default
   source $HOME/.bash-git-prompt
 elif [ -f $HOME/.bash_functions ]; then
-	. $HOME/.bash_functions
-	termwide
+  . $HOME/.bash_functions
+  termwide
 else
-	export PS1='[(\@) (\j)] \u@\h:$($HOME/.prompt)\$ '
+  export PS1='[(\@) (\j)] \u@\h:$($HOME/.prompt)\$ '
 fi
 
 if [ -f "$HOME/.brewrc.local" ]; then
@@ -24,19 +27,19 @@ fi
 
 
 if [ `uname` == "CYGWIN_NT-5.1" ]; then
-	alias ls='ls --color'
-	TERM=xterm
+  alias ls='ls --color'
+  TERM=xterm
 elif [ `uname` == 'Linux' ]; then
-	alias ls='ls --color'
-	TERM=xterm
+  alias ls='ls --color'
+  TERM=xterm
 elif [ `uname` == 'Darwin' ]; then
-	alias ls='ls -G'
-	TERM=xterm
+  alias ls='ls -G'
+  TERM=xterm
 elif [ `uname` == 'FreeBSD' ]; then
-	alias ls='ls -G'
-	TERM=xterm-color
+  alias ls='ls -G'
+  TERM=xterm-color
 else
-	TERM=vt100
+  TERM=vt100
 fi
 
 export TERM
