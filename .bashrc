@@ -62,4 +62,8 @@ alias rake='bundle exec rake'
 export PATH="/usr/local/heroku/bin:$PATH"
 
 # added by travis gem
-[ -f /Users/soberther/.travis/travis.sh ] && source /Users/soberther/.travis/travis.sh
+[ -f $HOME/.travis/travis.sh ] && source $HOME/.travis/travis.sh
+
+if [ -f $HOME/.kube/config ]; then
+  export KUBECONFIG=$HOME/.kube/config
+fi
