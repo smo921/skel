@@ -14,7 +14,7 @@ function start_agent {
 }
 
 # Source SSH settings, if applicable
-ssh-add -ls > /dev/null 2>&1
+ssh-add -l > /dev/null 2>&1
 if [ $? -eq 0 ]; then
      echo "Keys already loaded, skipping ssh agent startup"
 elif [ -f "${SSH_ENV}" ]; then
@@ -34,6 +34,7 @@ if [ -e /etc/bash.bashrc ] ; then
 fi
 
 
+if [ -d $HOME/gopath ]; then export GOPATH="$HOME/gopath"; fi
 [ -f /opt/boxen/env.sh ] && source /opt/boxen/env.sh
 
 ########## Build up our path ############
@@ -51,7 +52,7 @@ for testdir in                 \
     /usr/ccs/bin               \
     $HOME/bin                  \
     $HOME/.rbenv/bin           \
-    $HOME/gopath/bin           \
+    $GOPATH/bin                \
     /data/rbenv/bin            \
   ; do
     echo -n "PATHADD ... "
@@ -132,7 +133,6 @@ export PIP_DOWNLOAD_CACHE=$HOME/.pip/cache
 export NVM_DIR=~/.nvm
 if [[ $HAVE_BREW -eq 0 && -f $(brew --prefix nvm) ]]; then source $(brew --prefix nvm)/nvm.sh; fi
 
-if [ -d $HOME/gopath ]; then export GOPATH="$HOME/gopath"; fi
 export KUBERNETES_PROVIDER=vagrant
 
 export PATH="/opt/chefdk/bin:$PATH"
@@ -141,5 +141,5 @@ export PATH="/opt/chefdk/bin:$PATH"
 if [ -f $HOME/.workrc ]; then source $HOME/.workrc; fi
 
 echo "SSH Keys loaded:"
-ssh-add -ls
+ssh-add -l
 
