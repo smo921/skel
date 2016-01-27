@@ -11,9 +11,9 @@ HAVE_BREW=$?
 if [[ $HAVE_BREW -eq 0 && -f "$(brew --prefix bash-git-prompt)/share/gitprompt.sh" ]]; then
   GIT_PROMPT_THEME=Default
   source "$(brew --prefix bash-git-prompt)/share/gitprompt.sh"
-elif [ -f $HOME/.bash-git-prompt ]; then
+elif [ -f $HOME/.bash-git-prompt/gitprompt.sh ]; then
   GIT_PROMPT_THEME=Default
-  source $HOME/.bash-git-prompt
+  source $HOME/.bash-git-prompt/gitprompt.sh
 elif [ -f $HOME/.bash_functions ]; then
   . $HOME/.bash_functions
   termwide
