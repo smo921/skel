@@ -9,10 +9,10 @@ export EDITOR=vi
 HAVE_BREW=$?
 
 if [[ $HAVE_BREW -eq 0 && -f "$(brew --prefix bash-git-prompt)/share/gitprompt.sh" ]]; then
-  GIT_PROMPT_THEME=Default
+  GIT_PROMPT_THEME=Custom
   source "$(brew --prefix bash-git-prompt)/share/gitprompt.sh"
 elif [ -f $HOME/.bash-git-prompt/gitprompt.sh ]; then
-  GIT_PROMPT_THEME=Default
+  GIT_PROMPT_THEME=Custom
   source $HOME/.bash-git-prompt/gitprompt.sh
 elif [ -f $HOME/.bash_functions ]; then
   . $HOME/.bash_functions
