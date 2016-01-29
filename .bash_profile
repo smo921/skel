@@ -54,6 +54,7 @@ for testdir in                 \
     $HOME/.rbenv/bin           \
     $GOPATH/bin                \
     /data/rbenv/bin            \
+    /usr/local/go/bin          \
   ; do
     echo -n "PATHADD ... "
     if [ -d "${testdir}" ]
