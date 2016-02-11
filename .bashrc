@@ -8,7 +8,7 @@ export EDITOR=vi
 /usr/bin/which brew > /dev/null 2>&1
 HAVE_BREW=$?
 
-[ -f $HOME/.bash_functions ]; && . $HOME/.bash_functions
+[ -f $HOME/.bash_functions ] && . $HOME/.bash_functions
 
 if [[ $HAVE_BREW -eq 0 && -f "$(brew --prefix bash-git-prompt)/share/gitprompt.sh" ]]; then
   GIT_PROMPT_THEME=Custom
