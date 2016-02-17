@@ -1,0 +1,23 @@
+"*":
+  "atom-fuzzy-grep": {}
+  core: {}
+  editor:
+    invisibles: {}
+    preferredLineLength: 100
+    softWrap: false
+    tabLength: 2
+  "go-plus":
+    goPath: "~/gopath"
+  "tree-view":
+    hideVcsIgnoredFiles: true
+  welcome:
+    showOnStartup: false
+".gfm.source":
+  editor:
+    softWrap: true
+".python.source":
+  editor:
+    tabLength: 2
+".ruby.source":
+  editor:
+    tabLength: 2
