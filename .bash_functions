@@ -16,8 +16,12 @@ LIGHT_GREEN='\[\033[1;32m\]'
 
 
 function reachable {
-    hname=`ssh -o ConnectTimeout=10 $1 hostname 2>/dev/null`
-    ##if [ $? -ne 0 ]; then echo "$1 Unreachable"; fi
+    uptime=`ssh -o ConnectTimeout=10 $1 uptime 2>/dev/null`
+    if [ "$2" == "-v" -a $? -ne 0 ]; then
+      echo "$1 Unreachable"
+    else
+      echo "$1 up: $uptime"
+    fi
     return $?
 }
 
