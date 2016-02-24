@@ -1,0 +1,38 @@
+#!/bin/bash
+
+SKEL=${SKEL:=$HOME/projects/skel}
+DS=$(date +%Y%m%d)
+
+contains() {
+  for x in $1; do
+    [ $x == $2 ] && return 0
+  done
+  return 1
+}
+
+link() {
+  if [ ! -h "$HOME/$(basename $1)" ]; then
+    echo "Backing up $(basename $1) to $(basename $1).skelbak.$DS"
+    mv $HOME/$(basename $1) $HOME/$(basename $1).skelbak.$DS
+    ln -s $1 $HOME/$(basename $1)
+  fi
+}
+
+get_files() {
+  FILES=`find $SKEL -maxdepth 1 -wholename $SKEL -o -path $SKEL/.git -o -path $SKEL/.gitignore -prune -o -print`
+  SUBMODULES=`git submodule status $SKEL | awk '{print $2}'`
+  for f in $FILES; do
+    if [ -f $f ]; then
+      link $f
+    elif [ -d $f ]; then
+      if contains "$SUBMODULES" $(basename $f); then
+        echo "Linking submodule directory: $(basename $f)"
+        link $f
+      else
+        cp -a $f $HOME/
+      fi
+    fi
+  done
+}
+
+get_files
