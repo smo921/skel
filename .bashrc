@@ -71,3 +71,5 @@ export PATH="/usr/local/heroku/bin:$PATH"
 if [ -f $HOME/.kube/config ]; then
   export KUBECONFIG=$HOME/.kube/config
 fi
+
+cd $HOME
