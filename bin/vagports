@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+for vm in `VBoxManage list runningvms| awk -F'"' '{print $2}'`; do
+  echo $vm; VBoxManage showvminfo $vm | grep Rule
+done

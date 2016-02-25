@@ -1,0 +1,51 @@
+#!/bin/bash
+
+HOSTNAME=$1; shift
+if [[ "$HOSTNAME" == "-i" ]]; then
+    HOSTNAME=$1
+    shift
+    echo "Hostname: $HOSTNAME"
+fi
+RUSER=$1; shift
+RCMD=$*
+
+if [[ "$HOSTNAME" == "" ]] || [[ $RUSER == "" ]] || [[ $RCMD = "" ]];
+then
+    echo "error: $0 [-i] <hostname> <user> <command> (<args>)"
+    echo "Environment Variables:"
+    echo "  SUDOPWD: Sudo password"
+    echo "  SUDO_REASON: Reason for invoking sudo"
+    exit 1
+fi
+
+if [[ "$SUDOPWD" == "" ]]; then
+    read -s -p "SUDO Password: " SUDOPWD
+    echo
+fi
+export SUDOPWD
+
+if [ -f ~/.sudo_reason ]; then
+  SUDO_REASON=$(cat ~/.sudo_reason)
+  echo "SUDO REASON: $SUDO_REASON"
+  sleep 1
+elif [ -n "$SUDO_REASON" ]; then
+  echo "SUDO REASON: $SUDO_REASON"
+else
+  echo "Enter reason for SUDO"
+  read SUDO_REASON
+  echo "SUDO REASON: $SUDO_REASON"
+fi
+
+
+##DEBUG
+##echo "Host: $HOSTNAME"
+##echo "User: $RUSER"
+##echo "Cmd : $RCMD"
+##echo
+
+###echo $SUDOPWD | ssh -o ConnectTimeout=666666 $HOSTNAME "export TERM=vt100; export PATH=$PATH:/usr/bin:/usr/sbin:/usr/local/sbin:/usr/local/bin; export SUDO_REASON=$SUDO_REASON ; export SUDO_USER=$USER; sudo -S -p '' su - $RUSER -c '$RCMD'" | egrep -v '^###|Hello there'
+echo $SUDOPWD | ssh -o ConnectTimeout=666666 $HOSTNAME "export TERM=vt100; export PATH=$PATH:/usr/bin:/usr/sbin:/usr/local/sbin:/usr/local/bin; export SUDO_REASON=\"$SUDO_REASON\" ; export SUDO_USER=$USER; sudo -S -p '' su $RUSER -c '$RCMD'" | egrep -v '^###|Hello there'
+exit $?
+
+
+
