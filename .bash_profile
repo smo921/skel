@@ -133,7 +133,11 @@ export PIP_DOWNLOAD_CACHE=$HOME/.pip/cache
 if which pyenv > /dev/null; then pyenv virtualenvwrapper; fi
 
 export NVM_DIR=~/.nvm
-if [[ $HAVE_BREW -eq 0 && -f $(brew --prefix nvm) ]]; then source $(brew --prefix nvm)/nvm.sh; fi
+if [[ $HAVE_BREW -eq 0 && -f $(brew --prefix nvm) ]]; then
+  source $(brew --prefix nvm)/nvm.sh
+elif [ -f $NVM_DIR/nvm.sh ]; then
+  source $NVM_DIR/nvm.sh
+fi
 
 export KUBERNETES_PROVIDER=vagrant
 
@@ -141,6 +145,7 @@ export PATH="/opt/chefdk/bin:$PATH"
 
 # Work/employer related configs that should never be exposed in github
 if [ -f $HOME/.workrc ]; then source $HOME/.workrc; fi
+if [ -f $HOME/.homerc ]; then source $HOME/.homerc; fi
 
 echo "SSH Keys loaded:"
 ssh-add -l
