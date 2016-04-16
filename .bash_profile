@@ -25,8 +25,7 @@ elif [ -f "${SSH_ENV}" ]; then
     }
 else
     start_agent;
-fi 
-                                                                
+fi
 
 # source the system wide bashrc if it exists
 if [ -e /etc/bash.bashrc ] ; then
@@ -130,6 +129,8 @@ if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi
 export PIP_REQUIRE_VIRTUALENV=true
 # cache pip-installed packages to avoid re-downloading
 export PIP_DOWNLOAD_CACHE=$HOME/.pip/cache
+
+if which pyenv > /dev/null; then pyenv virtualenvwrapper; fi
 
 export NVM_DIR=~/.nvm
 if [[ $HAVE_BREW -eq 0 && -f $(brew --prefix nvm) ]]; then source $(brew --prefix nvm)/nvm.sh; fi

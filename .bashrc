@@ -48,6 +48,7 @@ export TERM
 
 [ -f '/usr/local/bin/hub' ] && alias git=hub
 alias augtool='augtool -I $HOME/projects/augeas/lenses/'
+alias curl-trace='curl -w "@$HOME/.curl-trace" -o /dev/null -s'
 alias fixmouse='xinput --set-prop 13 286 12 15 255' # Synaptics Finger low, high, press
 alias fixterm='resize > /tmp/blah ; . /tmp/blah ; rm /tmp/blah'
 alias kitchen='bundle exec kitchen'
@@ -56,6 +57,7 @@ alias myip='echo -e "\n$(curl -s ifconfig.me/ip)\n"'
 alias ta='tmux attach -t'
 alias tls='tmux list-sessions'
 alias rake='bundle exec rake'
+alias rgrep='grep -R'
 alias vi=vim
 alias xterm='xterm -bg black -fg green'
 
