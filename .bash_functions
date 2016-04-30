@@ -25,3 +25,7 @@ function reachable {
     return $?
 }
 
+function dsrm {
+  docker stop $1 && \
+  docker rm $1
+}
