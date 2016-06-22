@@ -1,13 +1,15 @@
-atom-beautify@0.29.7
+atom-beautify@0.29.8
 atom-fuzzy-grep@0.13.0
 atom-jshint@2.0.0
 atomatigit@1.5.5
 autocomplete-go@1.1.0
+build@0.64.0
 build-dockerfile@1.0.1
 build-rake@0.1.1
 builder-go@1.0.0
+busy@0.5.0
 environment@1.2.0
-file-icons@1.7.11
+file-icons@1.7.15
 git-control@0.7.1
 go-config@1.1.4
 go-get@1.0.3
@@ -16,15 +18,16 @@ gofmt@1.1.6
 gometalinter-linter@1.1.0
 gorename@1.0.2
 language-diff@0.4.0
-linter@1.11.4
+linter@1.11.11
 linter-docker@0.1.2
 linter-rubocop@0.4.7
 linter-shellcheck@1.2.0
 markdown-preview-plus@2.4.0
-minimap@4.23.5
+minimap@4.24.6
 minimap-highlight-selected@4.4.0
 navigator-godef@1.0.3
+ruby-bundler@0.3.0
 tester-go@1.0.4
-tree-view-git-status@0.2.3
+tree-view-git-status@1.0.1
 
 

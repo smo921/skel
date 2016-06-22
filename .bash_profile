@@ -141,7 +141,7 @@ fi
 
 export KUBERNETES_PROVIDER=vagrant
 
-export PATH="/opt/chefdk/bin:$PATH"
+export PATH="$PATH:/opt/chefdk/bin"
 
 # Work/employer related configs that should never be exposed in github
 if [ -f $HOME/.workrc ]; then source $HOME/.workrc; fi
