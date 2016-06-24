@@ -48,6 +48,7 @@ export TERM
 
 [ -f '/usr/local/bin/hub' ] && alias git=hub
 alias augtool='augtool -I $HOME/projects/augeas/lenses/'
+alias be='bundle exec'
 alias curl-trace='curl -w "@$HOME/.curl-trace" -o /dev/null -s'
 alias fixmouse='xinput --set-prop 13 286 12 15 255' # Synaptics Finger low, high, press
 alias fixterm='resize > /tmp/blah ; . /tmp/blah ; rm /tmp/blah'
