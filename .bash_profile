@@ -133,7 +133,7 @@ export PIP_DOWNLOAD_CACHE=$HOME/.pip/cache
 if which pyenv > /dev/null; then pyenv virtualenvwrapper; fi
 
 export NVM_DIR=~/.nvm
-if [[ $HAVE_BREW -eq 0 && -f $(brew --prefix nvm) ]]; then
+if [[ $HAVE_BREW -eq 0 && -d $(brew --prefix nvm) ]]; then
   source $(brew --prefix nvm)/nvm.sh
 elif [ -f $NVM_DIR/nvm.sh ]; then
   source $NVM_DIR/nvm.sh
@@ -150,3 +150,15 @@ if [ -f $HOME/.homerc ]; then source $HOME/.homerc; fi
 echo "SSH Keys loaded:"
 ssh-add -l
 
+
+export PATH="$HOME/.cargo/bin:$PATH"
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/soberther/google-cloud-sdk/path.bash.inc' ]; then source '/Users/soberther/google-cloud-sdk/path.bash.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/soberther/google-cloud-sdk/completion.bash.inc' ]; then source '/Users/soberther/google-cloud-sdk/completion.bash.inc'; fi
+# BEGIN DOCKER-IMAGES
+export DOCKER_FOR_MAC_ENABLED=true
+source /Users/soberther/projects/zendesk/docker-images/dockmaster/zdi.sh
+# END DOCKER-IMAGES

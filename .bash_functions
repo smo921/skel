@@ -29,3 +29,7 @@ function dsrm {
   docker stop $1 && \
   docker rm $1
 }
+
+function gcb {
+  git rev-parse --abbrev-ref HEAD
+}

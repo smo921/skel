@@ -32,19 +32,20 @@ if [ `uname` == "CYGWIN_NT-5.1" ]; then
   alias ls='ls --color'
   TERM=xterm-256color
 elif [ `uname` == 'Linux' ]; then
-  alias ls='ls --color'
+  alias ls='ls --color -F'
   TERM=xterm-256color
 elif [ `uname` == 'Darwin' ]; then
-  alias ls='ls -G'
+  alias ls='ls -GF'
   TERM=xterm-256color
 elif [ `uname` == 'FreeBSD' ]; then
-  alias ls='ls -G'
+  alias ls='ls -GF'
   TERM=xterm-256color
 else
   TERM=vt100
 fi
 
 export TERM
+export GPG_TTY=$(tty)
 
 [ -f '/usr/local/bin/hub' ] && alias git=hub
 alias augtool='augtool -I $HOME/projects/augeas/lenses/'
@@ -58,7 +59,7 @@ alias myip='echo -e "\n$(curl -s ifconfig.me/ip)\n"'
 alias ta='tmux attach -t'
 alias tls='tmux list-sessions'
 alias rake='bundle exec rake'
-alias rgrep='grep -R'
+alias rgrep='egrep -R'
 alias vi=vim
 alias xterm='xterm -bg black -fg green'
 
@@ -76,3 +77,6 @@ if [ -f $HOME/.kube/config ]; then
 fi
 
 cd $HOME
+
+# added by travis gem
+[ -f /Users/soberther/.travis/travis.sh ] && source /Users/soberther/.travis/travis.sh
