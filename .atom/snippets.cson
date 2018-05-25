@@ -1,0 +1,60 @@
+# Your snippets
+#
+# Atom snippets allow you to enter a simple prefix in the editor and hit tab to
+# expand the prefix into a larger code block with templated values.
+#
+# You can create a new snippet in this file by typing "snip" and then hitting
+# tab.
+#
+# An example CoffeeScript snippet to expand log to console.log:
+#
+# '.source.coffee':
+#   'Console log':
+#     'prefix': 'log'
+#     'body': 'console.log $1'
+#
+# This file uses CoffeeScript Object Notation (CSON).
+# If you are unfamiliar with CSON, you can read more about it here:
+# https://github.com/bevry/cson#what-is-cson
+'.source.ruby':
+  'Expect Chef Run':
+    'prefix': 'ecr'
+    'body': 'expect(chef_run).to '
+  'Cookbook Header':
+    'prefix': 'chead'
+    'body': """
+#
+# Cookbook Name:: zendesk_
+# Recipe::
+#
+# Copyright 2016 Zendesk Inc.
+#
+# All rights reserved - Do Not Redistribute
+#
+
+"""
+  'Chefspec Template':
+    'prefix': 'newcspec'
+    'body': """
+require 'spec_helper'
+
+shared_examples 'finalize' do |platform, version|
+  context "on \#{platform} \#{version}" do
+    let(:chef_run) { solo_runner(platform, version).converge(described_recipe) }
+
+    describe 'a test' do
+      it 'creates a file' do
+        expect(chef_run).to create_file('/foo/bar')
+      end
+    end
+  end
+end
+
+describe 'zendesk_<cookbook>::<recipe>' do
+  platforms.each do |platform, versions|
+    versions.each do |version|
+      include_examples '<recipe>', platform, version
+    end
+  end
+end
+"""
