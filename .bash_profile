@@ -153,12 +153,3 @@ ssh-add -l
 
 export PATH="$HOME/.cargo/bin:$PATH"
 
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/soberther/google-cloud-sdk/path.bash.inc' ]; then source '/Users/soberther/google-cloud-sdk/path.bash.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '/Users/soberther/google-cloud-sdk/completion.bash.inc' ]; then source '/Users/soberther/google-cloud-sdk/completion.bash.inc'; fi
-# BEGIN DOCKER-IMAGES
-export DOCKER_FOR_MAC_ENABLED=true
-source /Users/soberther/projects/zendesk/docker-images/dockmaster/zdi.sh
-# END DOCKER-IMAGES
