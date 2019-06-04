@@ -1,0 +1,4 @@
+function ehealth() {
+        (curl -s 0:9200/_cluster/health\?pretty ; /usr/bin/curl -s 'localhost:9200/_cat/recovery' | awk '$5 != "done" {printf "%6s %6s %-50s %15s ---> %-15s %15s\n", $18,$3,$1,$6,$8,$16}' | sort -n)
+}
+
