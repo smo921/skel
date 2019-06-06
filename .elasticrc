@@ -1,21 +1,72 @@
-function ehealth() {
+function elk_health() {
   /usr/bin/curl -s 0:9200/_cluster/health\?pretty
-
 }
 
-function erecovery() {
-  /usr/bin/curl -s 'localhost:9200/_cat/recovery' | awk '$5 != "done" {printf "%6s %6s %-50s %15s ---> %-15s %15s\n", $18,$3,$1,$6,$8,$16}' | sort -n
+function elk_recovery() {
+  /usr/bin/curl -s 'localhost:9200/_cat/recovery' | awk '$5 != "done" {printf "%6s %6s %-60s %15s ---> %-15s %15s\n", $18,$3,$1,$6,$8,$16}' | sort -n
 }
 
-function esummary() {
-  (ehealth ; erecovery)
+function elk_summary() {
+  (elk_health ; elk_recovery)
 }
 
-function emv_cold() {
+function elk_mv_warm() {
+  # move index from hot to cold storage
+  /usr/bin/curl -s -X PUT 0:9200/${1}/_settings -H 'Content-Type: application/json' -d'
+  {
+    "index.routing.allocation.exclude.type": "hot",
+    "index.routing.allocation.require.type": "secondary"
+  }'
+}
+
+function elk_mv_cold() {
   # move index from hot to cold storage
   /usr/bin/curl -s -X PUT 0:9200/${1}/_settings -H 'Content-Type: application/json' -d'
   {
     "index.routing.allocation.exclude.type": "hot",
     "index.routing.allocation.require.type": "cold"
   }'
+}
+
+function elk_shards_relocating() {
+  /usr/bin/curl -s '0:9200/_cat/shards?pretty' | awk '$4 == "RELOCATING" { printf "%60s %15s ---> %-15s\n", $1,$8,$12 }'
+}
+
+function elk_shards_per_node() {
+  /usr/bin/curl -s '0:9200/_cat/shards?pretty' | awk '{print $8}' | sort | uniq -c
+}
+
+function elk_unassigned_shards() {
+  /usr/bin/curl -s '0:9200/_cat/shards?h=index,shard,prirep,state,unassigned.reason'| grep UNASSIGNED
+}
+
+function elk_unshrunken_indices() {
+  /usr/bin/curl -s '0:9200/_cat/shards?pretty' | grep -v shrunken | awk '$8 !~ /hot/ {print $1}' | sort | uniq
+}
+
+function elk_relocate_index() {
+  curl -XPUT 0:9200/${1}/_settings -H 'Content-Type: application/json' -d'
+  {
+    "settings": {
+      "index.routing.allocation.total_shards_per_node": -1,
+      "index.routing.allocation.require._name": "elkdatawarm14",
+      "index.routing.allocation.require.type": "secondary",
+      "index.blocks.write": true
+    }
+  }'
+}
+
+function elk_shrink_index() {
+  curl -X POST "0:9200/${1}/_shrink/${1}-shrunken" -H 'Content-Type: application/json' -d'
+  {
+    "settings": {
+      "index.routing.allocation.require._name": null,
+      "index.routing.allocation.require.type": "secondary",
+      "index.blocks.write": null
+    }
+  }'
+}
+
+function elk_delete_index() {
+  curl -s -XDELETE 0:9200/${1}
 }
