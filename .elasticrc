@@ -10,6 +10,10 @@ function elk_summary() {
   (elk_health ; elk_recovery)
 }
 
+function elk_get_shard() {
+  curl -s '0:9200/_cat/shards?v' | grep $1
+}
+
 function elk_mv_warm() {
   # move index from hot to cold storage
   /usr/bin/curl -s -X PUT 0:9200/${1}/_settings -H 'Content-Type: application/json' -d'
@@ -45,11 +49,13 @@ function elk_unshrunken_indices() {
 }
 
 function elk_relocate_index() {
+  target="elkdatawarm${2:-14}"
+  echo "Moving $1 to $target"
   curl -XPUT 0:9200/${1}/_settings -H 'Content-Type: application/json' -d'
   {
     "settings": {
       "index.routing.allocation.total_shards_per_node": -1,
-      "index.routing.allocation.require._name": "elkdatawarm14",
+      "index.routing.allocation.require._name": "'$target'",
       "index.routing.allocation.require.type": "secondary",
       "index.blocks.write": true
     }
