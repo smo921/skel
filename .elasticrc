@@ -76,3 +76,11 @@ function elk_shrink_index() {
 function elk_delete_index() {
   curl -s -XDELETE 0:9200/${1}
 }
+
+function elk_snapshots() {
+  curl '0:9200/_cat/snapshots/s3-backup-repo-pod15-production?pretty&v'
+}
+
+function elk_tasks() {
+  curl -s -XGET 'http://localhost:9200/_cluster/pending_tasks?pretty=true'
+}

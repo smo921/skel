@@ -1,0 +1,24 @@
+#!/bin/bash
+
+. ~/.bash_functions
+
+[ "${#}" -eq 0 ] && exit 255
+
+if [ -z "$TITLE" ]; then
+  TITLE="multi"
+fi
+
+first=`echo $1 | awk -F[0-9] '{print $1}'`
+pod=`echo $1 | cut -d\. -f 2`
+symbol=`podsymbol $pod`
+
+tmux new-window -n "$TITLE{$first$symbol" "/usr/bin/ssh $1"; shift
+
+for host in ${*}
+do
+    tmux split-window -h  "/usr/bin/ssh $host"
+    tmux select-layout tiled > /dev/null
+done
+
+tmux select-pane -t 0
+tmux set-window-option synchronize-panes on > /dev/null

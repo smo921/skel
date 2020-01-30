@@ -58,6 +58,8 @@
 	smudge = git-lfs smudge %f
 	required = true
 [commit]
-	gpgsign = true
+	gpgsign = false
 [gpg]
 	program = gpg
+[core]
+	excludesfile = /Users/soberther/.gitignore_global

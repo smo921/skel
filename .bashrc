@@ -59,7 +59,7 @@ alias myip='echo -e "\n$(curl -s ifconfig.me/ip)\n"'
 alias ta='tmux attach -t'
 alias tls='tmux list-sessions'
 alias rake='bundle exec rake'
-alias rgrep='egrep -R'
+alias rgrep='egrep -Ri'
 alias vi=vim
 alias xterm='xterm -bg black -fg green'
 
