@@ -150,6 +150,4 @@ if [ -f $HOME/.homerc ]; then source $HOME/.homerc; fi
 echo "SSH Keys loaded:"
 ssh-add -l
 
-
-export PATH="$HOME/.cargo/bin:$PATH"
-
+. "$HOME/.cargo/env"

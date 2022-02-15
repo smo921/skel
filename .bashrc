@@ -80,3 +80,4 @@ cd $HOME
 
 # added by travis gem
 [ -f /Users/soberther/.travis/travis.sh ] && source /Users/soberther/.travis/travis.sh
+. "$HOME/.cargo/env"
