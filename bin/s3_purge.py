@@ -10,7 +10,8 @@ import threading
 BULK_DELETE_LIST_SIZE = 1000
 MAX_CONSUMER = 15
 MAX_LIST_LEN = 5000
-QUEUE_TIMEOUT = 20
+QUEUE_TIMEOUT = 5
+QUEUE_SLEEP = 10
 
 def flatten(src_list):
   return [val for sublist in src_list for val in sublist]
@@ -21,13 +22,18 @@ def get_dir_entries(prefix):
     Bucket=BUCKET_NAME,
     Delimiter='/',
     Prefix=prefix
-  )['CommonPrefixes'])
+  ).get('CommonPrefixes', []))
   return list(paths)
 
 def get_archive_paths(prefix):
-  level1 = get_dir_entries(prefix)
-  level2 = flatten(list(map(lambda x: get_dir_entries(x), level1)))
-  return flatten(list(map(lambda x: get_dir_entries(x), level2)))
+  while True:
+    print('prefix: {}'.format(prefix))
+    dirs = get_dir_entries(prefix)
+    print('dirs: {}'.format(dirs))
+    if dirs:
+    for dir in dirs:
+      if len(get_archive_paths(dir)) == 0:
+        return dir
 
 def delete_items(items):
   print("{} Deleting items".format(threading.get_ident()))
@@ -86,17 +92,18 @@ def producer(marker_queue, version_queue, path):
   print('Producer {} exiting...'.format(threading.get_ident()))
 
 
-def consumer(queue):
+def consumer(q):
   print('Starting consumer => {}'.format(threading.get_ident()))
 
   # Run indefinitely
   while True:
     try:
-      delete_items(queue.get(True, QUEUE_TIMEOUT))
-      queue.task_done()
+      delete_items(q.get(True, QUEUE_TIMEOUT))
+      q.task_done()
     except queue.Empty:
-      print('Queue empty after {} seconds, Consumer {} exiting . . .'.format(QUEUE_TIMEOUT, threading.get_ident()))
-      break
+      print('Consumer {}: Queue empty after {} seconds . . .'.format(threading.get_ident(), QUEUE_TIMEOUT))
+      time.sleep(QUEUE_SLEEP)
+      pass
 
 if __name__ == '__main__':
   if len(sys.argv) < 3:
@@ -106,10 +113,14 @@ if __name__ == '__main__':
   BUCKET_NAME = sys.argv[1]
 
   # Create the Queue object
-  queue_size = math.floor(MAX_CONSUMER * 1.4)
+  queue_size = math.floor(MAX_CONSUMER * 1.2)
   print('Queue Size/Depth: {}'.format(queue_size))
   marker_queue = queue.Queue(maxsize=queue_size)
   version_queue = queue.Queue(maxsize=queue_size)
+
+  paths = get_archive_paths(sys.argv[2])
+  print('Paths: {}'.format(paths))
+  sys.exit(0)
 
   consumers = []
   producers = []
@@ -122,7 +133,7 @@ if __name__ == '__main__':
     t.start()
     consumers.append(t)
 
-  for path in get_archive_paths(sys.argv[2]):
+  for path in paths:
     t = threading.Thread(target=producer, args=(marker_queue, version_queue, path,))
     t.start()
     producers.append(t)

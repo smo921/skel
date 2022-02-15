@@ -33,3 +33,7 @@ function dsrm {
 function gcb {
   git rev-parse --abbrev-ref HEAD
 }
+
+function gaaps {
+  gaa && gc --amend --no-edit && gpsf origin $(gcb)
+}
